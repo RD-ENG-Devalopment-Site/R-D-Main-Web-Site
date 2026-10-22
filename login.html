@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="th" data-auth-state="login">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#101218" />
+    <meta name="referrer" content="no-referrer" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; connect-src https://nrjdjwyiglniidcclilf.supabase.co; object-src 'none'; base-uri 'self'; form-action 'self'" />
+    <title>เข้าสู่ระบบ | Engineer R&amp;D Site</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body class="site-login-page" data-page="login">
+    <main class="site-login-shell" aria-labelledby="site-login-title">
+      <section class="site-login-brand" aria-label="Engineer R&D Site">
+        <img src="assets/RDLOGO.png" alt="R&amp;D Engineer" />
+        <p>Engineering Data Access</p>
+        <h1 id="site-login-title">Engineer R&amp;D Site</h1>
+        <span>เข้าสู่ระบบก่อนเข้าถึงข้อมูลเครื่องจักรและงานบำรุงรักษา</span>
+      </section>
+
+      <section class="site-login-card" aria-label="แบบฟอร์มเข้าสู่ระบบ">
+        <div class="site-login-card-heading">
+          <span class="site-login-signal" aria-hidden="true"></span>
+          <div><h2>เข้าสู่ระบบ</h2><p>ใช้บัญชีที่ผู้ดูแลระบบสร้างให้</p></div>
+        </div>
+        <form id="site-login-form" novalidate>
+          <div class="admin-field">
+            <label for="site-login-username">ชื่อผู้ใช้งาน</label>
+            <input id="site-login-username" name="username" type="text" autocomplete="username" autocapitalize="none" spellcheck="false" maxlength="32" required autofocus />
+          </div>
+          <div class="admin-field">
+            <label for="site-login-password">รหัสผ่าน</label>
+            <div class="admin-password-shell">
+              <input id="site-login-password" name="password" type="password" autocomplete="current-password" maxlength="128" required />
+              <button id="site-login-reveal" type="button" aria-label="แสดงรหัสผ่าน" aria-pressed="false">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6Z" /><circle cx="12" cy="12" r="2.5" /></svg>
+              </button>
+            </div>
+          </div>
+          <p class="site-login-message" id="site-login-message" role="status" aria-live="polite"></p>
+          <button class="site-login-submit" id="site-login-submit" type="submit">เข้าสู่ระบบ</button>
+        </form>
+        <p class="site-login-security"><span aria-hidden="true"></span>รหัสผ่านส่งตรงไปยัง Supabase Auth และไม่บันทึกไว้ในหน้าเว็บ</p>
+      </section>
+    </main>
+    <script src="auth-config.js"></script>
+    <script src="login.js"></script>
+  </body>
+</html>

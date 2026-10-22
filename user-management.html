@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="th" data-auth-state="pending">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#111319" />
+    <meta name="referrer" content="no-referrer" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; connect-src https://nrjdjwyiglniidcclilf.supabase.co; object-src 'none'; base-uri 'self'; form-action 'self'" />
+    <title>จัดการผู้ใช้งาน | Engineer R&amp;D Site</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="auth-config.js"></script>
+    <script src="auth-guard.js"></script>
+  </head>
+  <body data-page="user-management">
+    <div class="app-shell" id="app-shell">
+      <aside class="sidebar" id="sidebar-mount" aria-label="แถบนำทาง"></aside>
+
+      <main class="workspace" aria-label="หน้าจัดการผู้ใช้งาน">
+        <button class="theme-toggle" id="theme-toggle" type="button" aria-label="เปลี่ยนเป็นโหมดสว่าง" aria-pressed="false" title="เปลี่ยนเป็นโหมดสว่าง">
+          <svg class="theme-icon icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4" /><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" /></svg>
+          <svg class="theme-icon icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 15.5A8.5 8.5 0 0 1 8.5 4 8.5 8.5 0 1 0 20 15.5Z" /></svg>
+        </button>
+
+        <div class="dashboard-content admin-page">
+          <header class="dashboard-heading admin-page-heading">
+            <div>
+              <h1>จัดการผู้ใช้งาน</h1>
+              <p>สร้างบัญชี กำหนด Role ตั้งรหัสผ่านใหม่ และยกเลิกสิทธิ์จากพื้นที่ควบคุมเดียว</p>
+            </div>
+            <a class="admin-back-link" href="index.html">กลับหน้า Main</a>
+          </header>
+
+          <section class="admin-auth-panel" id="admin-auth-view" aria-labelledby="admin-login-title">
+            <div class="admin-auth-copy">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 5 6v5c0 4.6 2.8 8.1 7 10 4.2-1.9 7-5.4 7-10V6z" /><path d="m9 12 2 2 4-4" /></svg>
+              <div>
+                <h2 id="admin-login-title">สงวนสิทธิ์สำหรับผู้ดูแลระบบ</h2>
+                <p id="admin-access-message">หน้านี้ต้องใช้ Role <strong>Admin</strong> และทุกคำสั่งจะตรวจสิทธิ์ซ้ำที่ Edge Function</p>
+              </div>
+            </div>
+          </section>
+
+          <section class="admin-portal" id="admin-portal" hidden aria-labelledby="admin-directory-title">
+            <div class="admin-session-strip">
+              <span class="admin-session-dot" aria-hidden="true"></span>
+              <strong>ยืนยันสิทธิ์ Admin แล้ว</strong>
+              <span id="admin-account-label"></span>
+            </div>
+
+            <section class="admin-directory">
+              <header class="admin-directory-heading">
+                <div>
+                  <h2 id="admin-directory-title">บัญชีในระบบ</h2>
+                  <p>การเปลี่ยนแปลงมีผลกับ Supabase Auth และบันทึกใน Admin audit log</p>
+                </div>
+                <button class="admin-primary-button admin-compact-button" id="admin-create-user-button" type="button">เพิ่มผู้ใช้งาน</button>
+              </header>
+              <p class="admin-list-message" id="admin-list-message" role="status" aria-live="polite">กำลังโหลดบัญชีผู้ใช้งาน…</p>
+              <div class="admin-table-wrap" tabindex="0">
+                <table class="admin-user-table">
+                  <caption class="sr-only">รายการบัญชีผู้ใช้งานและสิทธิ์</caption>
+                  <thead><tr><th scope="col">ชื่อผู้ใช้</th><th scope="col">Role</th><th scope="col">เข้าสู่ระบบล่าสุด</th><th scope="col"><span class="sr-only">คำสั่ง</span></th></tr></thead>
+                  <tbody id="admin-user-table-body"></tbody>
+                </table>
+              </div>
+            </section>
+          </section>
+        </div>
+      </main>
+    </div>
+
+    <dialog class="admin-user-dialog" id="admin-user-dialog" aria-labelledby="managed-user-title">
+      <form id="managed-user-form" method="dialog">
+        <header>
+          <div><h2 id="managed-user-title">จัดการผู้ใช้งาน</h2><p>กำหนดชื่อผู้ใช้และสิทธิ์ให้เหมาะกับหน้าที่</p></div>
+          <button class="admin-dialog-close" id="managed-user-close" type="button" aria-label="ปิด">×</button>
+        </header>
+        <input id="managed-user-id" type="hidden" />
+        <div class="admin-dialog-grid">
+          <div class="admin-field"><label for="managed-username">ชื่อผู้ใช้งาน</label><input id="managed-username" type="text" maxlength="32" autocomplete="off" required /></div>
+          <div class="admin-field"><label for="managed-role">Role</label><select id="managed-role" required><option>Admin</option><option>Engineer</option><option>Technician</option><option>Supervisor</option><option>Viewer</option></select></div>
+        </div>
+        <div class="admin-field admin-dialog-password"><label for="managed-password">รหัสผ่านใหม่ <span id="managed-password-note">(เว้นว่างหากไม่เปลี่ยน)</span></label><input id="managed-password" type="password" maxlength="128" autocomplete="new-password" /><p>อย่างน้อย 12 ตัว พร้อมตัวพิมพ์ใหญ่ ตัวพิมพ์เล็ก ตัวเลข และสัญลักษณ์</p></div>
+        <p class="admin-dialog-message" id="managed-user-message" role="status" aria-live="polite"></p>
+        <footer><button class="admin-secondary-button" id="managed-user-cancel" type="button">ยกเลิก</button><button class="admin-primary-button admin-compact-button" id="managed-user-save" type="submit">บันทึกผู้ใช้งาน</button></footer>
+        <section class="admin-danger-zone" id="managed-danger-zone" hidden>
+          <h3>ลบบัญชีอย่างถาวร</h3>
+          <p>พิมพ์ชื่อผู้ใช้ให้ตรงกันเพื่อยืนยัน การดำเนินการนี้ไม่สามารถย้อนกลับได้</p>
+          <div><input id="managed-delete-confirmation" type="text" autocomplete="off" aria-label="พิมพ์ชื่อผู้ใช้เพื่อยืนยัน" /><button id="managed-user-delete" type="button">ลบบัญชี</button></div>
+        </section>
+      </form>
+    </dialog>
+
+    <script src="navigation.js"></script>
+    <script src="user-management.js"></script>
+  </body>
+</html>

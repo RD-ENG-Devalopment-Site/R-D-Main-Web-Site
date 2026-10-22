@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="th" data-auth-state="pending">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="theme-color" content="#111319" /><meta name="referrer" content="no-referrer" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: https:; style-src 'self'; script-src 'self'; connect-src https://nrjdjwyiglniidcclilf.supabase.co https://script.google.com https://script.googleusercontent.com; object-src 'none'; base-uri 'self'; form-action 'self'" />
+  <title>Preventive Maintenance | Engineer R&amp;D Site</title>
+  <link rel="stylesheet" href="styles.css" /><link rel="stylesheet" href="pm-v2.css" /><script src="auth-config.js"></script><script src="auth-guard.js"></script>
+</head>
+<body data-page="preventive-maintenance">
+<div class="app-shell" id="app-shell">
+  <aside class="sidebar" id="sidebar-mount" aria-label="แถบนำทาง"></aside>
+  <main class="workspace pm-workspace" aria-labelledby="pm-page-title">
+    <div class="dashboard-content pm-page pm-v2-page">
+      <header class="pm-v2-header"><div><h1 id="pm-page-title">Preventive Maintenance</h1><p id="pm-overview-description">แผนเครื่องจักรและใบงาน ตั้งแต่เตรียมงานจนตรวจรับ</p></div><div class="pm-v2-actions"><span id="pm-role-indicator" class="pm-role-indicator"></span><button type="button" id="pm-plan-jump" class="pm-v2-button" hidden>จัดแผน PM</button></div></header>
+      <p id="pm-load-message" class="pm-v2-message" role="status" aria-live="polite">กำลังโหลดแผนและใบงาน PM…</p><button type="button" id="pm-retry" class="pm-v2-button secondary" hidden>ลองโหลดอีกครั้ง</button>
+      <section id="pm-setup" class="pm-v2-panel" aria-labelledby="pm-setup-title" hidden>
+        <div class="pm-v2-panel-heading"><div><h2 id="pm-setup-title">ซิงก์ทะเบียนแผน PM</h2><p>ตรวจรายการเพิ่มใหม่และรายการที่แก้ไขจาก Google Sheets ก่อนสำรองและอัปเดตทะเบียน</p></div></div>
+        <div class="pm-v2-actions"><button type="button" id="pm-setup-preview" class="pm-v2-button secondary">ตรวจข้อมูลใหม่จาก Google Sheets</button><button type="button" id="pm-setup-apply" class="pm-v2-button" hidden>สำรองและซิงก์ทะเบียน</button></div>
+        <div id="pm-setup-report" class="pm-v2-message" role="status" aria-live="polite"></div>
+      </section>
+      <div id="pm-summary" class="pm-v2-summary" aria-label="เลือกงานที่ต้องติดตาม"></div>
+      <section class="pm-v2-panel" aria-label="ค้นหาและกรอง PM"><div class="pm-v2-filters">
+        <label class="pm-v2-field">ค้นหาเครื่องจักร / เลขใบงาน<input id="pm-search" type="search" placeholder="ชื่อ รหัสเครื่อง หรือเลขใบงาน" /></label>
+        <label class="pm-v2-field">พื้นที่<select id="pm-zone-filter"><option value="">ทุกพื้นที่</option></select></label>
+        <label class="pm-v2-field">กำหนด PM ตั้งแต่<input id="pm-date-from" type="date" /></label><label class="pm-v2-field">ถึง<input id="pm-date-to" type="date" /></label>
+        <label class="pm-v2-field">สถานะใบงาน<select id="pm-status-filter"><option value="">ทุกสถานะ</option><option value="PLANNING">กำลังวางแผน</option><option value="WAITING_PARTS">รออะไหล่</option><option value="READY">พร้อมดำเนินการ</option><option value="IN_PROGRESS">กำลังดำเนินการ</option><option value="PENDING_INSPECTION">รอตรวจรับ</option><option value="REWORK">ต้องแก้ไข</option><option value="CLOSED">ปิดงาน</option><option value="POSTPONED">เลื่อนงาน</option><option value="CANCELLED">ยกเลิก</option></select></label>
+        <button type="button" id="pm-clear-filters" class="pm-v2-button secondary">ล้างตัวกรอง</button>
+      </div></section>
+      <nav id="pm-view-tabs" class="pm-v2-tabs" aria-label="มุมมอง PM"><button type="button" data-view="mine" aria-pressed="false">งานของฉัน</button><button type="button" data-view="all" aria-pressed="true">งานทั้งหมด</button><button type="button" data-view="plans" aria-pressed="false">แผนตามเครื่อง</button><button type="button" data-view="history" aria-pressed="false">ประวัติ</button></nav>
+      <section id="pm-work-section" class="pm-v2-panel" aria-labelledby="pm-work-title">
+        <div class="pm-v2-panel-heading"><div><h2 id="pm-work-title">งานที่ต้องดำเนินการ</h2><p id="pm-work-description">กำหนด PM และวันนัดทำงานแสดงแยกกัน</p></div></div>
+        <div class="pm-v2-table-wrap" tabindex="0" aria-label="ตารางใบงาน PM เลื่อนแนวนอนได้"><table class="pm-v2-table"><caption class="sr-only">ใบงาน PM และขั้นตอนถัดไป</caption><thead><tr><th scope="col">เครื่องจักร / ใบงาน</th><th scope="col">กำหนด PM / วันนัด</th><th scope="col">รายการตรวจ</th><th scope="col">อะไหล่</th><th scope="col">ผู้รับผิดชอบ</th><th scope="col">สถานะ / ทำต่อ</th></tr></thead><tbody id="pm-work-order-body"><tr><td colspan="6">กำลังโหลดใบงาน…</td></tr></tbody></table></div>
+      </section>
+      <section id="pm-plan-section" class="pm-v2-panel" aria-labelledby="pm-plan-title">
+        <div class="pm-v2-panel-heading"><div><h2 id="pm-plan-title" tabindex="-1">แผน PM ตามเครื่องจักร</h2><p id="pm-records-description">กำลังโหลดทะเบียนแผน…</p></div><a href="https://docs.google.com/spreadsheets/d/1mbdIqA2GN-k50Kxvr53cy5IZ0su-LD31eRmztDqYPqs/edit" target="_blank" rel="noopener noreferrer">เปิดแผนต้นทางใน Google Sheets</a></div>
+        <div class="pm-v2-toolbar"><label class="pm-v2-field">เครื่องจักร<select id="pm-machine-filter"><option value="">ทุกเครื่องจักร</option></select></label><label class="pm-v2-field">รอบ PM<select id="pm-interval-filter"><option value="">ทุกรอบ</option></select></label></div>
+        <p id="pm-selection-help" class="pm-v2-muted">เลือกรายการของเครื่องเดียวกันเพื่อสร้างใบงานหนึ่งรอบ รายการที่ยังไม่ผูกเครื่องต้องกำหนดข้อมูลก่อน</p>
+        <div id="pm-plan-groups" class="pm-plan-groups"><p class="pm-v2-empty">กำลังโหลดแผน PM…</p></div>
+      </section>
+      <section id="pm-plan-editor" class="pm-v2-panel" aria-labelledby="pm-editor-title" hidden>
+        <div class="pm-v2-panel-heading"><div><h2 id="pm-editor-title">กำหนดข้อมูลแผน</h2><p id="pm-editor-description"></p></div><button type="button" id="pm-editor-close" class="pm-v2-button secondary">ปิด</button></div>
+        <form id="pm-plan-form"><div class="pm-v2-form-grid"><label class="pm-v2-field">เครื่องจักรที่อ้างอิง<select name="machineId" required></select></label><label class="pm-v2-field">วันเริ่มนับรอบ<input type="date" name="baseDate" required /><small>ใช้วันจริงที่ Engineer ยืนยัน เช่น วันที่เริ่มใช้หรือวันที่ทำ PM ล่าสุด</small></label><label class="pm-v2-field">จำนวนรอบ<input type="number" name="intervalValue" min="1" step="1" required /></label><label class="pm-v2-field">หน่วยรอบ<select name="intervalUnit" required><option value="DAY">วัน</option><option value="WEEK">สัปดาห์</option><option value="MONTH">เดือน</option><option value="YEAR">ปี</option></select></label></div><div class="pm-v2-actions"><p id="pm-editor-message" class="pm-v2-message" role="status" aria-live="polite"></p><button type="submit" class="pm-v2-button">บันทึกข้อมูลแผน</button></div></form>
+      </section>
+    </div>
+  </main>
+</div>
+<script src="navigation.js"></script><script src="app.js"></script><script src="pm-common.js"></script><script src="preventive-maintenance.js"></script>
+</body>
+</html>

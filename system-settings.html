@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="th" data-auth-state="pending">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#111319" />
+    <meta name="referrer" content="no-referrer" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; connect-src https://nrjdjwyiglniidcclilf.supabase.co https://script.google.com https://script.googleusercontent.com; object-src 'none'; base-uri 'self'; form-action 'self'" />
+    <title>ตั้งค่าระบบ | Engineer R&amp;D Site</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="auth-config.js"></script>
+    <script src="auth-guard.js"></script>
+  </head>
+  <body data-page="system-settings">
+    <div class="app-shell" id="app-shell">
+      <aside class="sidebar" id="sidebar-mount" aria-label="แถบนำทาง"></aside>
+
+      <main class="workspace" aria-label="หน้าตั้งค่าระบบ">
+        <button class="theme-toggle" id="theme-toggle" type="button" aria-label="เปลี่ยนเป็นโหมดสว่าง" aria-pressed="false" title="เปลี่ยนเป็นโหมดสว่าง">
+          <svg class="theme-icon icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4" /><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" /></svg>
+          <svg class="theme-icon icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 15.5A8.5 8.5 0 0 1 8.5 4 8.5 8.5 0 1 0 20 15.5Z" /></svg>
+        </button>
+
+        <div class="dashboard-content settings-page">
+          <header class="dashboard-heading settings-page-heading">
+            <div>
+              <h1>ตั้งค่าระบบ</h1>
+              <p>กำหนดเวอร์ชัน นโยบายการแจ้งเตือน ตรวจสถานะการเชื่อมต่อ และติดตามประวัติการเปลี่ยนแปลง</p>
+            </div>
+            <span class="settings-admin-badge">Admin only</span>
+          </header>
+
+          <section class="admin-auth-panel" id="settings-auth-view" aria-labelledby="settings-access-title">
+            <div class="admin-auth-copy">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 5 6v5c0 4.6 2.8 8.1 7 10 4.2-1.9 7-5.4 7-10V6z" /><path d="m9 12 2 2 4-4" /></svg>
+              <div><h2 id="settings-access-title">กำลังตรวจสอบสิทธิ์</h2><p id="settings-access-message">หน้านี้สงวนสิทธิ์สำหรับผู้ดูแลระบบ</p></div>
+            </div>
+          </section>
+
+          <div class="settings-portal" id="settings-portal" hidden>
+            <form id="system-settings-form">
+              <section class="settings-section" aria-labelledby="general-settings-title">
+                <header><div><h2 id="general-settings-title">ทั่วไป</h2><p>ข้อมูลระบุรุ่นที่แสดงในระบบและใช้ประกอบการตรวจสอบ Deployment</p></div></header>
+                <div class="settings-form-grid settings-form-grid-single">
+                  <label class="settings-field"><span>เวอร์ชันระบบ</span><input id="system-version" name="systemVersion" type="text" maxlength="40" pattern="[A-Za-z0-9][A-Za-z0-9._-]{0,39}" placeholder="1.0.0" required /><small>ใช้ตัวอักษร ตัวเลข จุด ขีดกลาง หรือขีดล่าง</small></label>
+                </div>
+              </section>
+
+              <section class="settings-section" aria-labelledby="notification-settings-title">
+                <header><div><h2 id="notification-settings-title">การแจ้งเตือน</h2><p>กำหนดเหตุการณ์ ผู้รับ ช่องทาง ความเร่งด่วน และการแจ้งเตือนซ้ำ</p></div></header>
+                <div class="settings-toggle-list">
+                  <label class="settings-toggle-row"><span><strong>เครื่องจักรขัดข้อง</strong><small>สร้างเหตุการณ์แจ้งเตือนเมื่อเครื่องจักรเปลี่ยนเป็นสถานะขัดข้อง</small></span><input id="breakdown-enabled" type="checkbox" /><i aria-hidden="true"></i></label>
+                  <label class="settings-toggle-row"><span><strong>PM ใกล้ครบกำหนด</strong><small>แจ้งเตือนก่อนถึงกำหนดตามรอบ PM</small></span><input id="pm-upcoming-enabled" type="checkbox" /><i aria-hidden="true"></i></label>
+                  <label class="settings-toggle-row"><span><strong>PM เกินกำหนด</strong><small>ยกระดับงานที่เลยกำหนดและยังไม่ปิดงาน</small></span><input id="pm-overdue-enabled" type="checkbox" /><i aria-hidden="true"></i></label>
+                </div>
+                <div class="settings-form-grid">
+                  <label class="settings-field settings-field-wide"><span>ผู้รับการแจ้งเตือน</span><textarea id="notification-recipients" rows="4" placeholder="ชื่อผู้ใช้หรืออีเมล — หนึ่งรายการต่อบรรทัด"></textarea><small>สูงสุด 20 รายการ</small></label>
+                  <fieldset class="settings-field settings-channel-field"><legend>ช่องทางแจ้งเตือน</legend><label><input type="checkbox" name="notification-channel" value="Email" /> Email</label><label><input type="checkbox" name="notification-channel" value="LINE" /> LINE</label><label><input type="checkbox" name="notification-channel" value="Microsoft Teams" /> Microsoft Teams</label></fieldset>
+                  <label class="settings-field"><span>ระดับความเร่งด่วน</span><select id="notification-urgency"><option value="normal">ปกติ</option><option value="high">สูง</option><option value="critical">วิกฤต</option></select></label>
+                  <label class="settings-field"><span>แจ้งเตือนซ้ำทุก</span><div class="settings-input-unit"><input id="repeat-minutes" type="number" min="5" max="1440" step="5" value="60" required /><span>นาที</span></div></label>
+                  <label class="settings-field settings-field-wide"><span>ลำดับการ Escalate</span><textarea id="escalation-steps" rows="4" placeholder="Technician&#10;Engineer&#10;Admin"></textarea><small>เรียงจากผู้รับผิดชอบลำดับแรกไปยังลำดับสุดท้าย สูงสุด 10 ขั้น</small></label>
+                </div>
+                <p class="settings-inline-note">รุ่นนี้บันทึกนโยบายการแจ้งเตือนอย่างปลอดภัย การส่งข้อความจริงต้องเชื่อมผู้ให้บริการของแต่ละช่องทางก่อนเปิดใช้งานภาคสนาม</p>
+              </section>
+
+              <div class="settings-save-bar"><p id="settings-save-message" role="status" aria-live="polite"></p><button class="admin-primary-button admin-compact-button" id="settings-save-button" type="submit">บันทึกการตั้งค่า</button></div>
+            </form>
+
+            <section class="settings-section" aria-labelledby="connection-settings-title">
+              <header><div><h2 id="connection-settings-title">การเชื่อมต่อระบบ</h2><p>สถานะล่าสุดของ Supabase, GAS API และ Google Sheet โดยไม่แสดง Secret</p></div><button class="admin-secondary-button" id="test-connections" type="button">ทดสอบการเชื่อมต่อ</button></header>
+              <div class="connection-status-grid">
+                <article><span class="connection-status-dot" id="supabase-status-dot"></span><div><strong>Supabase</strong><small id="supabase-status-text">กำลังตรวจสอบ…</small></div></article>
+                <article><span class="connection-status-dot" id="gas-status-dot"></span><div><strong>GAS API</strong><small id="gas-status-text">กำลังตรวจสอบ…</small></div></article>
+                <article><span class="connection-status-dot" id="sheet-status-dot"></span><div><strong>Google Sheet</strong><small id="sheet-status-text">กำลังตรวจสอบ…</small></div></article>
+              </div>
+              <dl class="settings-system-details">
+                <div><dt>ซิงค์ข้อมูลล่าสุด</dt><dd id="last-sync-at">—</dd></div>
+                <div><dt>แหล่งข้อมูล</dt><dd id="data-sources">—</dd></div>
+                <div><dt>API Version</dt><dd id="api-version">—</dd></div>
+                <div><dt>Deployment</dt><dd id="deployment-version">—</dd></div>
+                <div><dt>ทดสอบล่าสุด</dt><dd id="connection-tested-at">—</dd></div>
+              </dl>
+              <p class="settings-connection-message" id="connection-message" role="status" aria-live="polite"></p>
+            </section>
+
+            <section class="settings-section settings-audit-section" aria-labelledby="audit-settings-title">
+              <header><div><h2 id="audit-settings-title">บันทึกและสำรองข้อมูล</h2><p>ตรวจว่าใครแก้ไขการตั้งค่าหรือเปลี่ยน Role เมื่อใด</p></div><button class="admin-secondary-button" id="refresh-audit" type="button">รีเฟรช</button></header>
+              <div class="settings-tabs" role="tablist" aria-label="ประเภทประวัติ"><button id="settings-audit-tab" type="button" role="tab" aria-selected="true" aria-controls="settings-audit-panel" tabindex="0">Audit log</button><button id="role-audit-tab" type="button" role="tab" aria-selected="false" aria-controls="role-audit-panel" tabindex="-1">ประวัติ Role</button></div>
+              <div class="settings-audit-panel" id="settings-audit-panel" role="tabpanel" aria-labelledby="settings-audit-tab"><div class="admin-table-wrap" tabindex="0"><table class="settings-audit-table"><thead><tr><th>วันและเวลา</th><th>ผู้ดำเนินการ</th><th>การเปลี่ยนแปลง</th><th>รายละเอียด</th></tr></thead><tbody id="settings-audit-body"><tr><td colspan="4">กำลังโหลด…</td></tr></tbody></table></div></div>
+              <div class="settings-audit-panel" id="role-audit-panel" role="tabpanel" aria-labelledby="role-audit-tab" hidden><div class="admin-table-wrap" tabindex="0"><table class="settings-audit-table"><thead><tr><th>วันและเวลา</th><th>ผู้ดำเนินการ</th><th>การเปลี่ยนแปลง</th><th>รายละเอียด</th></tr></thead><tbody id="role-audit-body"><tr><td colspan="4">กำลังโหลด…</td></tr></tbody></table></div></div>
+              <p class="settings-audit-message" id="audit-message" role="status" aria-live="polite"></p>
+            </section>
+          </div>
+        </div>
+      </main>
+    </div>
+    <script src="navigation.js"></script>
+    <script src="system-settings.js"></script>
+  </body>
+</html>

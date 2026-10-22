@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="th" data-auth-state="pending">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#111319" />
+    <meta name="referrer" content="no-referrer" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: https:; style-src 'self'; script-src 'self'; connect-src https://nrjdjwyiglniidcclilf.supabase.co https://script.google.com https://script.googleusercontent.com; object-src 'none'; base-uri 'self'; form-action 'self'" />
+    <title>อะไหล่เครื่องจักร | Engineer R&amp;D Site</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="spare-parts.css" />
+    <script src="auth-config.js"></script>
+    <script src="auth-guard.js"></script>
+  </head>
+  <body data-page="spare-parts">
+    <div class="app-shell" id="app-shell">
+      <aside class="sidebar" id="sidebar-mount" aria-label="แถบนำทาง"></aside>
+      <main class="workspace spare-workspace" aria-labelledby="spare-title">
+        <button class="theme-toggle" id="theme-toggle" type="button" aria-label="เปลี่ยนเป็นโหมดสว่าง" aria-pressed="false" title="เปลี่ยนเป็นโหมดสว่าง">
+          <svg class="theme-icon icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4" /><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M2 12h2M20 12h2" /></svg>
+          <svg class="theme-icon icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 15.5A8.5 8.5 0 0 1 8.5 4 8.5 8.5 0 1 0 20 15.5Z" /></svg>
+        </button>
+
+        <div class="spare-page">
+          <header class="spare-heading">
+            <div>
+              <h1 id="spare-title">อะไหล่เครื่องจักร</h1>
+              <p>ค้นหาชิ้นส่วนที่ใช้กับเครื่องจักร และตรวจจำนวนคงเหลือจากระบบคลัง</p>
+            </div>
+            <span class="spare-readonly">อ่านอย่างเดียว · ไม่ตัดสต็อก</span>
+          </header>
+
+          <p class="spare-source" id="spare-source" role="status" aria-live="polite">กำลังตรวจสอบการเชื่อมต่อระบบคลัง…</p>
+
+          <form class="spare-filters" id="spare-search-form" role="search">
+            <label class="spare-field spare-search-field" for="spare-query">
+              <span>ค้นหาอะไหล่</span>
+              <input id="spare-query" type="search" maxlength="100" autocomplete="off" placeholder="เลขไอเท็ม ชื่อ หรือ Part No." />
+            </label>
+            <label class="spare-field" for="spare-machine">
+              <span>เครื่องจักร</span>
+              <select id="spare-machine" disabled><option value="">กำลังโหลดทะเบียนเครื่องจักร…</option></select>
+            </label>
+            <label class="spare-field spare-status-field" for="spare-status">
+              <span>สถานะสต็อก</span>
+              <select id="spare-status">
+                <option value="">ทุกสถานะ</option>
+                <option value="normal">ปกติ</option>
+                <option value="low">ใกล้หมด</option>
+                <option value="out">หมด</option>
+              </select>
+            </label>
+            <button class="spare-search-button" type="submit">ค้นหา</button>
+          </form>
+          <p class="spare-filter-note">สถานะสต็อกกรองเฉพาะรายการที่โหลดแล้ว · ค้นหาและเครื่องจักรกรองจากระบบคลัง</p>
+          <div class="spare-machine-context" id="spare-machine-context" hidden>
+            <span id="spare-machine-context-text"></span>
+            <button id="spare-clear-machine" type="button">ล้างตัวกรองเครื่องจักร</button>
+          </div>
+
+          <div class="spare-layout">
+            <section class="spare-results" aria-labelledby="spare-results-title">
+              <header class="spare-section-heading">
+                <div><h2 id="spare-results-title">รายการอะไหล่</h2><p id="spare-results-summary">รอข้อมูลจากระบบคลัง</p></div>
+                <time id="spare-generated-at"></time>
+              </header>
+              <div class="spare-list-head" aria-hidden="true"><span>รายการ / Part No.</span><span>สถานะ</span><span>คงเหลือ</span></div>
+              <div class="spare-list-state" id="spare-list-state" role="status" aria-live="polite">
+                <p id="spare-list-message">กำลังตรวจสอบการเชื่อมต่อ…</p>
+                <button id="spare-retry" type="button" hidden>ลองโหลดอีกครั้ง</button>
+              </div>
+              <ul class="spare-list" id="spare-list" aria-label="รายการอะไหล่" hidden></ul>
+              <div class="spare-list-footer"><button id="spare-load-more" type="button" hidden>โหลดรายการถัดไป</button></div>
+            </section>
+
+            <section class="spare-detail" id="spare-detail" aria-labelledby="spare-detail-title">
+              <header class="spare-section-heading"><div><h2 id="spare-detail-title">รายละเอียดอะไหล่</h2><p>เลือกจากรายการเพื่อดูข้อมูลที่ระบบคลังยืนยัน</p></div></header>
+              <p class="sr-only" id="spare-detail-announcement" role="status" aria-live="polite" aria-atomic="true"></p>
+              <div class="spare-detail-state" id="spare-detail-state" role="status" aria-live="polite"><p id="spare-detail-message">ยังไม่ได้เลือกรายการ</p><button id="spare-detail-retry" type="button" hidden>ลองโหลดรายละเอียดอีกครั้ง</button></div>
+              <div class="spare-detail-content" id="spare-detail-content" hidden>
+                <div class="spare-detail-media"><img id="spare-detail-image" alt="" hidden /><span id="spare-image-fallback">ไม่มีรูปภาพอะไหล่</span></div>
+                <div class="spare-detail-identity"><strong id="spare-detail-code"></strong><h3 id="spare-detail-name"></h3><p id="spare-detail-size"></p></div>
+                <div class="spare-detail-stock"><span>คงเหลือในคลัง</span><strong id="spare-detail-quantity"></strong><span id="spare-detail-status" class="spare-stock-label"></span></div>
+                <dl class="spare-detail-facts">
+                  <div><dt>Part No.</dt><dd id="spare-detail-part-no"></dd></div>
+                  <div><dt>หน่วย</dt><dd id="spare-detail-unit"></dd></div>
+                  <div><dt>ขั้นต่ำ</dt><dd id="spare-detail-minimum"></dd></div>
+                  <div><dt>หมวด</dt><dd id="spare-detail-category"></dd></div>
+                  <div><dt>อัปเดตรายการ</dt><dd id="spare-detail-updated"></dd></div>
+                </dl>
+                <div class="spare-compatible"><h4>เครื่องจักรที่ใช้ร่วมกันได้</h4><ul id="spare-compatible-list"></ul></div>
+              </div>
+            </section>
+          </div>
+        </div>
+      </main>
+    </div>
+    <script src="navigation.js"></script>
+    <script src="app.js"></script>
+    <script src="spare-parts.js"></script>
+  </body>
+</html>

@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="th" data-auth-state="pending">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#111319" />
+    <meta name="referrer" content="no-referrer" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: https:; style-src 'self'; script-src 'self'; connect-src https://nrjdjwyiglniidcclilf.supabase.co https://script.google.com https://script.googleusercontent.com; object-src 'none'; base-uri 'self'; form-action 'self'" />
+    <title>เครื่องจักรโซนบน | Engineer R&amp;D Site</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="auth-config.js"></script>
+    <script src="auth-guard.js"></script>
+  </head>
+  <body data-page="machine-upper-zone">
+    <!--
+      THESIS: A machine-zone workspace that makes the location and the future machine register immediately legible, without inventing operational records.
+      OWN-WORLD: The existing Engineering Signal Rail: charcoal operational planes, precise steel dividers, white system type, and signal red reserved for the active machine-data path.
+      STORY: An engineer confirms they are in the lower zone, understands what will appear here, and has a clear structure ready for real equipment data.
+      FIRST VIEWPORT: The established navigation rail holds an open Machine Data lane; a simple zone title leads into one bordered machine register with a quiet, centered empty state.
+      FORM: Established operating workspace extension, directly shaped from the scoped request; seed: direct-brief.
+      FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
+    -->
+    <div class="app-shell" id="app-shell">
+      <aside class="sidebar" id="sidebar-mount" aria-label="แถบนำทาง">
+        <div class="sidebar-top">
+          <div class="brand-mark">
+            <img class="brand-logo" src="assets/RDLOGO.png" alt="R&amp;D Engineer" />
+            <span class="brand-title">Engineer R&amp;D Site</span>
+          </div>
+        </div>
+
+        <div class="sidebar-menu">
+          <p class="nav-section">Engineering Data</p>
+          <nav class="navigation" aria-label="เมนูหลัก">
+            <a class="nav-main" href="index.html" aria-label="Main">
+              <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m4 11 8-7 8 7v9H4z" /><path d="M9.5 20v-5h5v5" /></svg>
+              <span class="nav-label">Main</span>
+            </a>
+            <div class="nav-group">
+              <button class="nav-disclosure is-current" type="button" aria-expanded="true" aria-controls="machine-menu" aria-label="ข้อมูลเครื่องจักร">
+                <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V5" /><path d="M4 20h17" /><path d="M8 17v-5" /><path d="M12.5 17V8" /><path d="M17 17v-9" /><path d="M21 17v-3" /></svg>
+                <span class="nav-label">ข้อมูลเครื่องจักร</span>
+                <svg class="chevron" viewBox="0 0 20 20" aria-hidden="true"><path d="m5.5 7.5 4.5 4.5 4.5-4.5" /></svg>
+              </button>
+              <div class="submenu" id="machine-menu">
+                <div class="submenu-list">
+                  <a class="submenu-link" href="machine-lower-zone.html">โซนล่าง</a>
+                  <a class="submenu-link is-current" href="#machine-workspace" aria-current="page">โซนบน</a>
+                  <span class="submenu-link is-disabled" aria-disabled="true">บันทึกเครื่องจักร</span>
+                  <span class="submenu-link is-disabled" aria-disabled="true">อื่นๆ</span>
+                </div>
+              </div>
+            </div>
+            <div class="nav-group">
+              <button class="nav-disclosure" type="button" aria-expanded="false" aria-controls="parts-menu" aria-label="อะไหล่เครื่องจักร">
+                <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8" /><path d="M12 7v5l3.5 2" /></svg>
+                <span class="nav-label">อะไหล่เครื่องจักร</span>
+                <svg class="chevron" viewBox="0 0 20 20" aria-hidden="true"><path d="m5.5 7.5 4.5 4.5 4.5-4.5" /></svg>
+              </button>
+              <div class="submenu" id="parts-menu" hidden><div class="submenu-empty" aria-hidden="true"></div></div>
+            </div>
+            <div class="nav-group">
+              <button class="nav-disclosure" type="button" aria-expanded="false" aria-controls="pm-menu" aria-label="Preventive Maintenance">
+                <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="2" /><path d="M8 9h8M8 13h2m3 0h3M8 17h2m3 0h3" /></svg>
+                <span class="nav-label">Preventive Maintenance</span>
+                <svg class="chevron" viewBox="0 0 20 20" aria-hidden="true"><path d="m5.5 7.5 4.5 4.5 4.5-4.5" /></svg>
+              </button>
+              <div class="submenu" id="pm-menu" hidden><div class="submenu-empty" aria-hidden="true"></div></div>
+            </div>
+            <div class="nav-group">
+              <button class="nav-disclosure" type="button" aria-expanded="false" aria-controls="breakdown-menu" aria-label="Break Down">
+                <svg class="nav-icon nav-icon-breakdown" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 2.8 20h18.4L12 3Z" /><path d="M12 9v5m0 3h.01" /></svg>
+                <span class="nav-label">Break Down</span>
+                <svg class="chevron" viewBox="0 0 20 20" aria-hidden="true"><path d="m5.5 7.5 4.5 4.5 4.5-4.5" /></svg>
+              </button>
+              <div class="submenu" id="breakdown-menu" hidden><div class="submenu-list"><a class="submenu-link" href="machine-breakdown.html">แจ้งเหตุขัดข้อง</a><a class="submenu-link" href="machine-breakdown-repair.html">ใบงานซ่อม</a><a class="submenu-link" href="machine-breakdown-inspection.html">ตรวจรับและปิดงาน</a><a class="submenu-link" href="machine-breakdown-analysis.html">รายงานและวิเคราะห์</a></div></div>
+            </div>
+            <div class="nav-group">
+              <button class="nav-disclosure" type="button" aria-expanded="false" aria-controls="settings-menu" aria-label="การตั้งค่า">
+                <svg class="nav-icon nav-icon-settings" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h2M10 17h10" /><circle cx="16" cy="7" r="2" /><circle cx="8" cy="17" r="2" /></svg>
+                <span class="nav-label">การตั้งค่า</span>
+                <svg class="chevron" viewBox="0 0 20 20" aria-hidden="true"><path d="m5.5 7.5 4.5 4.5 4.5-4.5" /></svg>
+              </button>
+              <div class="submenu" id="settings-menu" hidden><div class="submenu-list"><a class="submenu-link" href="user-management.html">จัดการผู้ใช้งาน</a><span class="submenu-link is-disabled" aria-disabled="true">ตั้งค่าระบบ</span></div></div>
+            </div>
+          </nav>
+        </div>
+
+        <footer class="sidebar-foot">
+          <span class="status-kicker">Engineer Dashboard</span>
+          <strong>Engineer R&amp;D Site</strong>
+          <button class="toggle-button" id="sidebar-toggle" type="button" aria-expanded="true" aria-label="ย่อแถบนำทาง" title="ย่อแถบนำทาง">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 5.5 8 12l6.5 6.5M9 12h9" /></svg>
+          </button>
+        </footer>
+      </aside>
+
+      <main class="workspace" id="machine-workspace" aria-label="ข้อมูลเครื่องจักรโซนบน">
+        <div class="workspace-line workspace-line-top" aria-hidden="true"></div>
+        <div class="workspace-line workspace-line-bottom" aria-hidden="true"></div>
+        <button class="theme-toggle" id="theme-toggle" type="button" aria-pressed="false" aria-label="เปลี่ยนเป็นโหมดสว่าง" title="เปลี่ยนเป็นโหมดสว่าง">
+          <svg class="theme-icon icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4" /><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" /></svg>
+          <svg class="theme-icon icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 15.2A8.6 8.6 0 0 1 8.8 4 8.6 8.6 0 1 0 20 15.2Z" /></svg>
+        </button>
+
+        <div class="dashboard-content machine-page">
+          <header class="dashboard-heading">
+            <h1>เครื่องจักรโซนบน</h1>
+            <p>พื้นที่สำหรับแสดง ติดตาม และเข้าถึงข้อมูลเครื่องจักรที่ติดตั้งในโซนบน</p>
+          </header>
+
+          <section class="machine-canvas" aria-labelledby="upper-zone-heading">
+            <div class="machine-canvas-heading">
+              <div>
+                <h2 id="upper-zone-heading">รายการเครื่องจักร</h2>
+                <p>ข้อมูลเครื่องจักรล่าสุดจาก Google Sheets</p>
+              </div>
+              <svg class="machine-canvas-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V5" /><path d="M4 20h17" /><path d="M8 17v-5" /><path d="M12.5 17V8" /><path d="M17 17v-9" /><path d="M21 17v-3" /></svg>
+            </div>
+
+            <div class="machine-list-toolbar">
+              <label class="machine-search">
+                <span class="sr-only">ค้นหาเครื่องจักร</span>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="5.8" /><path d="m15.2 15.2 4 4" /></svg>
+                <input id="machine-search" type="search" placeholder="ค้นหาชื่อหรือรหัสเครื่องจักร" autocomplete="off" />
+              </label>
+              <label class="machine-filter">
+                <span>สถานะ</span>
+                <select id="machine-status-filter">
+                  <option value="all">ทุกสถานะ</option>
+                  <option value="running">กำลังทำงาน</option>
+                  <option value="stopped">หยุด</option>
+                  <option value="maintenance">ซ่อมบำรุง</option>
+                  <option value="breakdown">ขัดข้อง</option>
+                </select>
+              </label>
+              <p class="sr-only" id="machine-result-status" aria-live="polite">กำลังโหลดข้อมูลเครื่องจักร</p>
+            </div>
+
+            <div class="machine-workbench is-loading" id="machine-workbench">
+              <div class="machine-list-pane">
+                <p class="machine-list-note">รายการแบบกระชับ; ข้อมูลเชิงลึกจะแสดงในแผงด้านขวา</p>
+            <div class="machine-table-wrap">
+              <table class="machine-table">
+                <caption>ข้อมูลเครื่องจักรจากระบบบันทึกข้อมูล</caption>
+                <thead>
+                  <tr><th scope="col">เครื่องจักร</th><th scope="col">ตำแหน่ง</th><th scope="col">ประเภท</th><th scope="col">สถานะ</th><th scope="col">ทีมดูแล</th><th scope="col">อัปเดตล่าสุด</th></tr>
+                </thead>
+                <tbody id="machine-table-body">
+                  <tr class="machine-loading-row"><td colspan="6">กำลังโหลดข้อมูลเครื่องจักร…</td></tr>
+                </tbody>
+              </table>
+              <p class="machine-no-results" id="machine-no-results" hidden>ไม่พบเครื่องจักรตามเงื่อนไขที่เลือก</p>
+              <div class="machine-load-state" id="machine-load-state" role="status" aria-live="polite" hidden>
+                <p></p>
+                <button type="button" id="machine-retry" hidden>ลองเชื่อมต่ออีกครั้ง</button>
+              </div>
+            </div>
+                <nav class="machine-pagination" aria-label="หน้ารายการเครื่องจักร">
+                  <span id="machine-pagination-summary">กำลังโหลดข้อมูล</span>
+                  <div><button id="machine-page-previous" type="button" disabled>ก่อนหน้า</button><button id="machine-page-next" type="button" disabled>ถัดไป</button></div>
+                </nav>
+              </div>
+
+            <div class="machine-detail-layout" id="machine-detail" aria-live="polite" hidden>
+              <div class="machine-detail-heading">
+                <div><h2>รายละเอียดเครื่องจักร</h2><p>เลือกเครื่องจักรจากรายการเพื่อดูข้อมูลที่เกี่ยวข้อง</p></div>
+                <span class="example-note">ข้อมูลจาก Google Sheets</span>
+              </div>
+              <div class="machine-tabs" role="tablist" aria-label="หมวดข้อมูลเครื่องจักร">
+                <button id="tab-overview" class="machine-tab is-active" type="button" role="tab" aria-selected="true" aria-controls="panel-overview">ภาพรวม</button>
+                <button id="tab-maintenance" class="machine-tab" type="button" role="tab" aria-selected="false" aria-controls="panel-maintenance" tabindex="-1">PM และประวัติ</button>
+                <button id="tab-breakdown" class="machine-tab" type="button" role="tab" aria-selected="false" aria-controls="panel-breakdown" tabindex="-1">Breakdown</button>
+                <button id="tab-parts" class="machine-tab" type="button" role="tab" aria-selected="false" aria-controls="panel-parts" tabindex="-1">อะไหล่</button>
+                <button id="tab-documents" class="machine-tab" type="button" role="tab" aria-selected="false" aria-controls="panel-documents" tabindex="-1">เอกสาร</button>
+              </div>
+
+              <section id="panel-overview" class="machine-tab-panel" role="tabpanel" aria-labelledby="tab-overview" tabindex="0">
+                <div class="machine-detail-summary">
+                <figure class="machine-photo">
+                  <div class="machine-photo-media" id="detail-image-media" aria-hidden="true"></div>
+                  <figcaption id="detail-image-caption">ไม่มีรูปภาพเครื่องจักร</figcaption>
+                </figure>
+                <dl class="machine-detail-grid">
+                  <div class="machine-detail-item machine-detail-item-wide">
+                    <dt>ชื่อเครื่องจักร</dt>
+                    <dd id="detail-name">—</dd>
+                  </div>
+                  <div class="machine-detail-item machine-detail-item-left">
+                    <dt>โซนและตำแหน่งติดตั้ง</dt>
+                    <dd id="detail-location">—</dd>
+                  </div>
+                  <div class="machine-detail-item machine-detail-item-right">
+                    <dt>ประเภทเครื่องจักร</dt>
+                    <dd id="detail-type">—</dd>
+                  </div>
+                  <div class="machine-detail-item machine-detail-item-left">
+                    <dt>สถานะปัจจุบัน</dt>
+                    <dd id="detail-status">—</dd>
+                  </div>
+                  <div class="machine-detail-item machine-detail-item-right">
+                    <dt>ผู้รับผิดชอบ / ทีมดูแล</dt>
+                    <dd id="detail-team">—</dd>
+                  </div>
+                  <div class="machine-detail-item machine-detail-item-wide">
+                    <dt>อัปเดตข้อมูลล่าสุด</dt>
+                    <dd id="detail-updated">—</dd>
+                  </div>
+                </dl>
+              </div>
+
+                <div class="machine-maintenance-grid">
+                  <section class="maintenance-block" aria-labelledby="next-maintenance-heading">
+                    <h3 id="next-maintenance-heading">การบำรุงรักษาครั้งถัดไป</h3>
+                    <p id="detail-next-maintenance">ดูข้อมูลในหน้า Preventive Maintenance</p>
+                  </section>
+                  <section class="maintenance-block" aria-labelledby="maintenance-history-heading">
+                    <h3 id="maintenance-history-heading">ประวัติการบำรุงรักษาและ Breakdown</h3>
+                    <p id="detail-history">ดูข้อมูลในหน้าประวัติการซ่อมและ Breakdown</p>
+                  </section>
+                </div>
+              </section>
+
+              <section id="panel-maintenance" class="machine-tab-panel" role="tabpanel" aria-labelledby="tab-maintenance" tabindex="0" hidden>
+                <div class="tab-panel-heading"><h3>PM และประวัติการบำรุงรักษา</h3><p>ติดตามงานที่จะถึงและรายการบำรุงรักษาที่ดำเนินการแล้ว</p></div>
+                <div class="tab-record-list">
+                  <article><span>PM ครั้งถัดไป</span><strong id="maintenance-next">ตรวจเช็กระบบไฮดรอลิก · 22 ส.ค. 2569</strong></article>
+                  <article><span>บันทึกล่าสุด</span><strong id="maintenance-history">PM รายเดือนล่าสุด · 22 ก.ค. 2569</strong></article>
+                </div>
+              </section>
+
+              <section id="panel-breakdown" class="machine-tab-panel" role="tabpanel" aria-labelledby="tab-breakdown" tabindex="0" hidden>
+                <div class="tab-panel-heading"><h3>ประวัติ Breakdown</h3><p>บันทึกอาการ สาเหตุ วิธีแก้ไข และระยะเวลาหยุดเครื่อง</p></div>
+                <div class="tab-empty-state"><p id="breakdown-summary">ตัวอย่าง: ยังไม่พบ Breakdown ที่เปิดอยู่</p><span>เมื่อเชื่อมข้อมูลจริง รายละเอียดเหตุขัดข้องจะแสดงในส่วนนี้</span></div>
+              </section>
+
+              <section id="panel-parts" class="machine-tab-panel" role="tabpanel" aria-labelledby="tab-parts" tabindex="0" hidden>
+                <div class="tab-panel-heading"><h3>อะไหล่ของเครื่องจักร</h3><p>ยอดคงเหลืออยู่ในระบบคลังและอ่านได้อย่างเดียว</p></div>
+                <div class="tab-empty-state"><p id="machine-parts-context">เลือกเครื่องจักรเพื่อดูอะไหล่ที่ใช้ร่วมกัน</p><a class="machine-parts-link" id="machine-parts-link" href="spare-parts.html" hidden>เปิดรายการอะไหล่ของเครื่องนี้</a><span id="machine-parts-pending">รอเปิด API ระบบคลังสำหรับเว็บ R&amp;D</span></div>
+              </section>
+
+              <section id="panel-documents" class="machine-tab-panel" role="tabpanel" aria-labelledby="tab-documents" tabindex="0" hidden>
+                <div class="tab-panel-heading"><h3>เอกสารที่เกี่ยวข้อง</h3><p>รวมคู่มือ, SOP, แบบแปลน และรายงานตรวจสอบ</p></div>
+                <div class="tab-empty-state"><p>ยังไม่มีเอกสารแนบ</p><span>เมื่อมีเอกสาร สามารถแสดงลิงก์หรือไฟล์ดาวน์โหลดได้ที่นี่</span></div>
+              </section>
+            </div>
+            </div>
+          </section>
+        </div>
+      </main>
+    </div>
+    <script src="navigation.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>

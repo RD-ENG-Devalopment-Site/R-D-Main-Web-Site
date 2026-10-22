@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="th" data-auth-state="pending">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="referrer" content="no-referrer" />
+    <meta name="theme-color" content="#101218" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: https:; style-src 'self'; script-src 'self'; connect-src https://nrjdjwyiglniidcclilf.supabase.co https://script.google.com https://script.googleusercontent.com; object-src 'none'; base-uri 'self'; form-action 'self'" />
+    <title>ใบงาน PM | Engineer R&amp;D Site</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="pm-v2.css" />
+    <script src="auth-config.js"></script>
+    <script src="auth-guard.js"></script>
+  </head>
+  <body data-page="preventive-maintenance">
+    <div class="app-shell" id="app-shell">
+      <aside class="sidebar" id="sidebar-mount" aria-label="แถบนำทาง"></aside>
+      <main class="workspace pm-workspace" aria-labelledby="wo-title">
+        <div class="dashboard-content pm-v2-page">
+          <a class="pm-v2-back" href="preventive-maintenance.html">กลับรายการ PM</a>
+          <header class="pm-v2-header"><div><h1 id="wo-title">ใบงาน PM</h1><p id="wo-subtitle">กำลังโหลดรายละเอียด…</p></div><span id="wo-status" class="pm-v2-status"></span></header>
+          <div id="wo-message" class="pm-v2-message" role="status" aria-live="polite"></div>
+          <button id="wo-reload" class="pm-v2-button pm-v2-secondary" type="button">โหลดข้อมูลล่าสุด</button>
+          <ol id="wo-steps" class="pm-v2-steps" aria-label="ขั้นตอนของใบงาน"></ol>
+          <form id="wo-form" hidden novalidate>
+            <section class="pm-v2-panel" aria-labelledby="wo-plan-heading">
+              <div class="pm-v2-panel-heading"><div><h2 id="wo-plan-heading">แผนงานและผู้รับผิดชอบ</h2><p id="wo-due"></p></div></div>
+              <fieldset id="wo-plan" class="pm-v2-form-grid"></fieldset>
+            </section>
+            <section class="pm-v2-panel" aria-labelledby="wo-items-heading">
+              <div class="pm-v2-panel-heading"><div><h2 id="wo-items-heading">รายการตรวจเช็ก</h2><p id="wo-progress"></p></div></div>
+              <div id="wo-items"></div>
+            </section>
+            <section class="pm-v2-panel" aria-labelledby="wo-time-heading">
+              <div class="pm-v2-panel-heading"><div><h2 id="wo-time-heading">เวลาปฏิบัติงานและหยุดเครื่อง</h2><p>เวลาประเทศไทย · เวลางานเสร็จและเวลาเดินเครื่องใหม่บันทึกแยกกัน</p></div></div>
+              <fieldset id="wo-times" class="pm-v2-form-grid"></fieldset>
+              <div id="wo-session-summary" class="pm-v2-section-body"></div>
+            </section>
+            <section class="pm-v2-panel" aria-labelledby="wo-parts-heading">
+              <div class="pm-v2-panel-heading"><div><h2 id="wo-parts-heading">อะไหล่ที่ใช้ในใบงาน</h2><p>จำนวนจองที่บันทึกในใบงาน ยังไม่ได้ล็อกยอดในระบบคลัง</p></div><button type="button" id="wo-add-part" class="pm-v2-button pm-v2-secondary">เพิ่มอะไหล่</button></div>
+              <div class="pm-v2-table-wrap" tabindex="0" aria-label="รายการและจำนวนอะไหล่"><table class="pm-v2-table pm-v2-parts-table"><thead><tr><th>อะไหล่ / หน่วย</th><th>วางแผน</th><th>จอง</th><th>เบิก</th><th>ใช้จริง</th><th>คืน</th><th>คงค้าง</th></tr></thead><tbody id="wo-parts"></tbody></table></div>
+            </section>
+            <section class="pm-v2-panel" aria-labelledby="wo-photos-heading">
+              <div class="pm-v2-panel-heading"><div><h2 id="wo-photos-heading">รูปก่อน–หลังและหลักฐาน</h2><p>ใช้ลิงก์ HTTPS หรือ Google Drive ที่ผู้ตรวจรับเปิดได้</p></div><button type="button" id="wo-add-photo" class="pm-v2-button pm-v2-secondary">เพิ่มหลักฐาน</button></div>
+              <div id="wo-photos" class="pm-v2-photo-list"></div>
+            </section>
+            <section class="pm-v2-panel" aria-labelledby="wo-notes-heading"><div class="pm-v2-panel-heading"><h2 id="wo-notes-heading">หมายเหตุและการตรวจรับ</h2></div><div class="pm-v2-form-grid"><label class="pm-v2-field pm-v2-wide">หมายเหตุการปฏิบัติงาน<textarea id="wo-notes" rows="3" maxlength="3000"></textarea></label><label id="wo-comments-label" class="pm-v2-field pm-v2-wide">ความเห็น / เหตุผลส่งกลับ เลื่อน หรือยกเลิก<textarea id="wo-comments" rows="3" maxlength="2000"></textarea></label></div></section>
+            <section class="pm-v2-panel" aria-labelledby="wo-history-heading"><div class="pm-v2-panel-heading"><h2 id="wo-history-heading">ประวัติการดำเนินงาน</h2></div><ol id="wo-events" class="pm-v2-history"></ol></section>
+            <footer class="pm-v2-savebar"><span id="wo-save-state" role="status">ยังไม่มีการแก้ไข</span><div id="wo-actions" class="pm-v2-actions"></div></footer>
+          </form>
+        </div>
+      </main>
+    </div>
+    <script src="navigation.js"></script><script src="app.js"></script><script src="pm-common.js"></script><script src="pm-work-order.js"></script>
+  </body>
+</html>

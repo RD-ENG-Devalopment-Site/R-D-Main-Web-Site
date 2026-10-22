@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="th" data-auth-state="pending">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#111319" />
+    <meta name="referrer" content="no-referrer" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: https:; style-src 'self'; script-src 'self'; connect-src https://nrjdjwyiglniidcclilf.supabase.co https://script.google.com https://script.googleusercontent.com; object-src 'none'; base-uri 'self'; form-action 'self'" />
+    <title>Engineering Workspace</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="auth-config.js"></script>
+    <script src="auth-guard.js"></script>
+  </head>
+  <body data-page="main">
+    <!--
+      THESIS: A quiet engineering control shell that leaves the workspace deliberately clear, rather than presenting premature dashboard data.
+      OWN-WORLD: Charcoal operational surfaces, mineral grays, precise white type, and a disciplined signal-red edge used only for identity and active control.
+      STORY: Engineers arrive at a stable application frame and can make room for work by collapsing navigation; no operational data is implied.
+      FIRST VIEWPORT: A dark left rail beside a large vacant graphite workspace; the rail toggle sits at the top-left and one red rail traces the application boundary.
+      FORM: Operational workspace shell, directly shaped from the scoped request; seed: direct-brief.
+      FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
+    -->
+    <div class="app-shell" id="app-shell">
+      <aside class="sidebar" id="sidebar-mount" aria-label="แถบนำทาง">
+        <div class="sidebar-top">
+          <div class="brand-mark">
+            <img class="brand-logo" src="assets/RDLOGO.png" alt="R&D Engineer" />
+            <span class="brand-title">Engineer R&amp;D Site</span>
+          </div>
+        </div>
+
+        <div class="sidebar-menu">
+          <p class="nav-section">Engineering Data</p>
+          <nav class="navigation" aria-label="เมนูหลัก">
+            <a class="nav-main is-current" href="#main-workspace" aria-current="page" aria-label="Main">
+              <svg class="nav-icon nav-icon-main" viewBox="0 0 24 24" aria-hidden="true"><path d="m4 11 8-7 8 7v9H4z" /><path d="M9.5 20v-5h5v5" /></svg>
+              <span class="nav-label">Main</span>
+            </a>
+            <div class="nav-group">
+              <button class="nav-disclosure" type="button" aria-expanded="false" aria-controls="machine-menu" aria-label="ข้อมูลเครื่องจักร">
+                <svg class="nav-icon nav-icon-machine" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V5" /><path d="M4 20h17" /><path d="M8 17v-5" /><path d="M12.5 17V8" /><path d="M17 17v-9" /><path d="M21 17v-3" /></svg>
+                <span class="nav-label">ข้อมูลเครื่องจักร</span>
+                <svg class="chevron" viewBox="0 0 20 20" aria-hidden="true"><path d="m5.5 7.5 4.5 4.5 4.5-4.5" /></svg>
+              </button>
+              <div class="submenu" id="machine-menu" hidden>
+                <div class="submenu-list">
+                  <a class="submenu-link" href="machine-lower-zone.html">โซนล่าง</a>
+                  <a class="submenu-link" href="machine-upper-zone.html">โซนบน</a>
+                  <span class="submenu-link is-disabled" aria-disabled="true">บันทึกเครื่องจักร</span>
+                  <span class="submenu-link is-disabled" aria-disabled="true">อื่นๆ</span>
+                </div>
+              </div>
+            </div>
+            <div class="nav-group">
+              <button class="nav-disclosure" type="button" aria-expanded="false" aria-controls="parts-menu" aria-label="อะไหล่เครื่องจักร">
+                <svg class="nav-icon nav-icon-parts" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8" /><path d="M12 7v5l3.5 2" /></svg>
+                <span class="nav-label">อะไหล่เครื่องจักร</span>
+                <svg class="chevron" viewBox="0 0 20 20" aria-hidden="true"><path d="m5.5 7.5 4.5 4.5 4.5-4.5" /></svg>
+              </button>
+              <div class="submenu" id="parts-menu" hidden><div class="submenu-empty" aria-hidden="true"></div></div>
+            </div>
+            <div class="nav-group">
+              <button class="nav-disclosure" type="button" aria-expanded="false" aria-controls="pm-menu" aria-label="Preventive Maintenance">
+                <svg class="nav-icon nav-icon-pm" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="2" /><path d="M8 9h8M8 13h2m3 0h3M8 17h2m3 0h3" /></svg>
+                <span class="nav-label">Preventive Maintenance</span>
+                <svg class="chevron" viewBox="0 0 20 20" aria-hidden="true"><path d="m5.5 7.5 4.5 4.5 4.5-4.5" /></svg>
+              </button>
+              <div class="submenu" id="pm-menu" hidden><div class="submenu-empty" aria-hidden="true"></div></div>
+            </div>
+            <div class="nav-group">
+              <button class="nav-disclosure" type="button" aria-expanded="false" aria-controls="breakdown-menu" aria-label="Break Down">
+                <svg class="nav-icon nav-icon-breakdown" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 2.8 20h18.4L12 3Z" /><path d="M12 9v5m0 3h.01" /></svg>
+                <span class="nav-label">Break Down</span>
+                <svg class="chevron" viewBox="0 0 20 20" aria-hidden="true"><path d="m5.5 7.5 4.5 4.5 4.5-4.5" /></svg>
+              </button>
+              <div class="submenu" id="breakdown-menu" hidden><div class="submenu-list"><a class="submenu-link" href="machine-breakdown.html">แจ้งเหตุขัดข้อง</a><a class="submenu-link" href="machine-breakdown-repair.html">ใบงานซ่อม</a><a class="submenu-link" href="machine-breakdown-inspection.html">ตรวจรับและปิดงาน</a><a class="submenu-link" href="machine-breakdown-analysis.html">รายงานและวิเคราะห์</a></div></div>
+            </div>
+            <div class="nav-group">
+              <button class="nav-disclosure" type="button" aria-expanded="false" aria-controls="settings-menu" aria-label="การตั้งค่า">
+                <svg class="nav-icon nav-icon-settings" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h2M10 17h10" /><circle cx="16" cy="7" r="2" /><circle cx="8" cy="17" r="2" /></svg>
+                <span class="nav-label">การตั้งค่า</span>
+                <svg class="chevron" viewBox="0 0 20 20" aria-hidden="true"><path d="m5.5 7.5 4.5 4.5 4.5-4.5" /></svg>
+              </button>
+              <div class="submenu" id="settings-menu" hidden><div class="submenu-list"><a class="submenu-link" href="user-management.html">จัดการผู้ใช้งาน</a><span class="submenu-link is-disabled" aria-disabled="true">ตั้งค่าระบบ</span></div></div>
+            </div>
+          </nav>
+        </div>
+
+        <footer class="sidebar-foot">
+          <span class="status-kicker">Engineer Dashboard</span>
+          <strong>Engineer R&amp;D Site</strong>
+          <button
+            class="toggle-button"
+            id="sidebar-toggle"
+            type="button"
+            aria-label="ย่อแถบนำทาง"
+            aria-expanded="true"
+            title="ย่อแถบนำทาง"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 5.5 8 12l6.5 6.5M9 12h9" /></svg>
+          </button>
+        </footer>
+      </aside>
+
+      <main class="workspace" id="main-workspace" aria-label="หน้าหลัก">
+        <button class="theme-toggle" id="theme-toggle" type="button" aria-label="เปลี่ยนเป็นโหมดสว่าง" aria-pressed="false" title="เปลี่ยนเป็นโหมดสว่าง">
+          <svg class="theme-icon icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4" /><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" /></svg>
+          <svg class="theme-icon icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 15.5A8.5 8.5 0 0 1 8.5 4 8.5 8.5 0 1 0 20 15.5Z" /></svg>
+        </button>
+        <div class="dashboard-content">
+          <header class="dashboard-heading">
+            <h1>Main</h1>
+            <p>ภาพรวมสถานะเครื่องจักร งานบำรุงรักษาเชิงป้องกัน และการแจ้งเตือนที่ต้องติดตาม</p>
+          </header>
+
+          <div class="overview-grid">
+            <section class="dashboard-section" aria-labelledby="machine-summary-heading">
+              <div class="section-heading">
+                <div>
+                  <h2 id="machine-summary-heading">สรุปจำนวนเครื่องจักร</h2>
+                  <p>สถานะปัจจุบันของเครื่องจักรในระบบ</p>
+                </div>
+                <svg class="section-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V5" /><path d="M4 20h17" /><path d="M8 17v-5" /><path d="M12.5 17V8" /><path d="M17 17v-9" /><path d="M21 17v-3" /></svg>
+              </div>
+              <dl class="summary-list">
+                <div><dt>ใช้งานปกติ</dt><dd id="main-machine-normal">—</dd></div>
+                <div><dt>หยุด</dt><dd id="main-machine-stopped">—</dd></div>
+                <div><dt>แจ้งเตือน</dt><dd id="main-machine-warning">—</dd></div>
+              </dl>
+              <p class="dashboard-data-state" id="main-machine-state" role="status">กำลังโหลดทะเบียนเครื่องจักร…</p>
+            </section>
+
+            <section class="dashboard-section" aria-labelledby="pm-summary-heading">
+              <div class="section-heading">
+                <div>
+                  <h2 id="pm-summary-heading">งาน PM วันนี้</h2>
+                  <p>นับตามวันครบกำหนดของแผน PM · ใกล้ครบกำหนดภายใน 7 วัน</p>
+                </div>
+                <svg class="section-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="2" /><path d="M8 9h8M8 13h2m3 0h3M8 17h2m3 0h3" /></svg>
+              </div>
+              <dl class="summary-list">
+                <div><dt>งานทั้งหมด</dt><dd id="main-pm-today">—</dd></div>
+                <div><dt>ใกล้ครบกำหนด</dt><dd id="main-pm-near">—</dd></div>
+                <div><dt>เกินกำหนด</dt><dd id="main-pm-overdue">—</dd></div>
+              </dl>
+              <p class="dashboard-data-state" id="main-pm-state" role="status">กำลังโหลดแผน PM…</p>
+            </section>
+          </div>
+
+          <section class="dashboard-section upcoming-section" aria-labelledby="upcoming-heading">
+            <div class="section-heading">
+              <div>
+                <h2 id="upcoming-heading">ตาราง PM ที่กำลังจะมาถึง</h2>
+                <p>แยกตามรอบการบำรุงรักษาเพื่อเตรียมงานล่วงหน้า</p>
+              </div>
+              <svg class="section-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4v16M5 8h14M9 4v4M17 4v4" /><rect x="5" y="4" width="14" height="16" rx="2" /></svg>
+            </div>
+            <div class="schedule-columns">
+              <div class="schedule-column"><h3>รายวัน</h3><div class="schedule-detail" id="main-pm-daily"><p>กำลังโหลด…</p></div></div>
+              <div class="schedule-column"><h3>รายเดือน</h3><div class="schedule-detail" id="main-pm-monthly"><p>กำลังโหลด…</p></div></div>
+              <div class="schedule-column"><h3>รายปี</h3><div class="schedule-detail" id="main-pm-yearly"><p>กำลังโหลด…</p></div></div>
+            </div>
+            <p class="dashboard-data-state" id="main-pm-upcoming-state" role="status">กำลังโหลดกำหนด PM ถัดไป…</p>
+          </section>
+
+          <section class="dashboard-section alert-section" aria-labelledby="alert-heading">
+            <div class="section-heading">
+              <div>
+                <h2 id="alert-heading">การแจ้งเตือนเร่งด่วน</h2>
+                <p>เครื่องจักรขัดข้องหรือ PM เกินกำหนด</p>
+              </div>
+              <svg class="section-icon alert-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4 21 20H3L12 4Z" /><path d="M12 9v5M12 17h.01" /></svg>
+            </div>
+            <p class="alert-empty" id="main-urgent-alert">กำลังตรวจสอบเหตุ Break Down และ PM เกินกำหนด…</p>
+          </section>
+
+          <div class="breakdown-overview-grid" aria-label="ภาพรวม Break Down">
+            <section class="dashboard-section breakdown-overview-card" aria-labelledby="breakdown-open-heading">
+              <div class="section-heading breakdown-overview-heading">
+                <div>
+                  <h2 id="breakdown-open-heading">Break Down ที่ยังไม่ปิดงาน</h2>
+                  <p>เหตุขัดข้องที่ต้องติดตามจนตรวจรับและปิดงาน</p>
+                </div>
+                <span class="breakdown-count" id="breakdown-open-count" aria-label="จำนวนเหตุที่ยังไม่ปิดงาน">—</span>
+              </div>
+              <div class="breakdown-overview-content" id="breakdown-open-content" aria-live="polite"><p class="breakdown-overview-state">กำลังโหลดเหตุขัดข้อง…</p></div>
+              <a class="breakdown-overview-all" href="machine-breakdown-repair.html">ดูใบงานซ่อมทั้งหมด</a>
+            </section>
+
+            <section class="dashboard-section breakdown-overview-card" aria-labelledby="breakdown-latest-heading">
+              <div class="section-heading breakdown-overview-heading">
+                <div>
+                  <h2 id="breakdown-latest-heading">เครื่องจักรที่ Break Down ล่าสุด</h2>
+                  <p>เหตุที่เกิดล่าสุดตามวันและเวลาเกิดเหตุ</p>
+                </div>
+                <svg class="section-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4 21 20H3L12 4Z" /><path d="M12 9v5M12 17h.01" /></svg>
+              </div>
+              <div class="breakdown-overview-content" id="breakdown-latest-content" aria-live="polite"><p class="breakdown-overview-state">กำลังโหลดเหตุล่าสุด…</p></div>
+              <a class="breakdown-overview-all" href="machine-breakdown.html">ดูรายการแจ้งเหตุ</a>
+            </section>
+          </div>
+        </div>
+      </main>
+    </div>
+    <script src="navigation.js"></script>
+    <script src="app.js"></script>
+    <script src="main-dashboard.js"></script>
+  </body>
+</html>
