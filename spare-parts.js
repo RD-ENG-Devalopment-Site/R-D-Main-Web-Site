@@ -8,6 +8,7 @@
   const config = window.RD_AUTH_CONFIG;
   const queryInput = $('#spare-query');
   const machineSelect = $('#spare-machine');
+  const machineRetryButton = $('#spare-machine-retry');
   const statusSelect = $('#spare-status');
   const searchButton = $('#spare-search-form button[type="submit"]');
   const loadMoreButton = $('#spare-load-more');
@@ -98,26 +99,32 @@
   }
 
   function activeMachine(record) {
-    return !/^(false|0|inactive)$/i.test(String(record.active == null ? '' : record.active).trim());
+    return record.active === true || /^(true|1)$/i.test(String(record.active == null ? '' : record.active).trim());
   }
 
   async function loadMachines() {
+    state.machines.clear();
     try {
       const records = await window.RDSiteAuth.apiRequest('listMachines');
       if (!Array.isArray(records)) throw new Error('INVALID_RESPONSE');
+      const seenIds = new Set();
       const duplicateIds = new Set();
-      records.filter(activeMachine).forEach((record) => {
+      records.forEach((record) => {
         const id = String(record.machine_id || '').trim();
         if (!validMachineId(id)) return;
-        if (state.machines.has(id)) { duplicateIds.add(id); return; }
-        state.machines.set(id, { name: String(record.machine_name || id).trim(), zone: String(record.zone || '').trim() });
+        if (seenIds.has(id)) { duplicateIds.add(id); return; }
+        seenIds.add(id);
+        const name = String(record.machine_name || '').trim();
+        const zone = String(record.zone || '').trim();
+        if (activeMachine(record) && name && zone) state.machines.set(id, { name, zone });
       });
       duplicateIds.forEach((id) => state.machines.delete(id));
-      machineSelect.replaceChildren(new Option('ทุกเครื่องจักร', ''));
+      machineSelect.replaceChildren(new Option(state.machines.size ? 'ทุกเครื่องจักร' : 'ยังไม่มีเครื่องที่ยืนยันว่าใช้งาน', ''));
       [...state.machines].sort((a, b) => a[1].name.localeCompare(b[1].name, 'th') || a[0].localeCompare(b[0])).forEach(([id, machine]) => {
         machineSelect.add(new Option(`${machine.name} · ${id}`, id));
       });
-      machineSelect.disabled = false;
+      machineSelect.disabled = !state.machines.size;
+      machineRetryButton.hidden = true;
       if (state.machineId && state.machines.has(state.machineId)) machineSelect.value = state.machineId;
       showMachineContext();
       if (state.machineId && !state.machines.has(state.machineId)) {
@@ -128,6 +135,7 @@
     } catch (_) {
       machineSelect.replaceChildren(new Option('โหลดทะเบียนเครื่องจักรไม่ได้', ''));
       machineSelect.disabled = true;
+      machineRetryButton.hidden = false;
       showMachineContext();
       if (state.machineId) {
         showListState('ยังยืนยันรหัสเครื่องจักรจากทะเบียน R&D ไม่ได้ กรุณาโหลดหน้านี้อีกครั้ง', true, 'error');
@@ -370,6 +378,12 @@
     loadList(true);
     machineSelect.focus();
   });
+  machineRetryButton.addEventListener('click', async () => {
+    machineRetryButton.disabled = true;
+    const ready = await loadMachines();
+    machineRetryButton.disabled = false;
+    if (ready && state.machineId && state.baseUrl) loadList(true);
+  });
   $('#spare-retry').addEventListener('click', async () => {
     if (state.machineId && !state.machines.has(state.machineId)) {
       if (await loadMachines()) loadList(true);
@@ -389,15 +403,16 @@
       showListState('ผู้ดูแลต้องตรวจ URL ของ Inventory Worker ก่อนเปิดใช้งาน', false, 'error');
       return;
     }
-    const machineReady = await loadMachines();
     if (!state.baseUrl) {
       setSource('รอเปิด API ระบบคลัง · ยังไม่แสดงข้อมูลสต็อกจริง', 'pending');
       showListState('หน้าอ่านอย่างเดียวพร้อมแล้ว แต่ยังไม่ได้เชื่อม Inventory Worker จึงไม่แสดงรายการหรือยอดคงเหลือ', false, 'pending');
       queryInput.disabled = true;
+      machineSelect.replaceChildren(new Option('รอเปิดระบบคลัง', ''));
       statusSelect.disabled = true;
       searchButton.disabled = true;
       return;
     }
+    const machineReady = await loadMachines();
     if (!machineReady || (state.machineId && !validMachineId(state.machineId))) return;
     await loadList(true);
     if (validItemId(initialItemId)) loadDetail(initialItemId);

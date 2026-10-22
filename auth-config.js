@@ -3,7 +3,7 @@ window.RD_AUTH_CONFIG = Object.freeze({
   publishableKey: 'sb_publishable_14gQnOwiFKG6664HHnAXMA_ArKW7XF5',
   usernameDomain: 'rd-auth.invalid',
   secureApiUrl: 'https://script.google.com/macros/s/AKfycbxBDxNQUm3Vb1lXyvBUTvTRqlKr7vc2lPFkqvvZgRcHvSYZ1peBB6N2fz0-Fk_XJgk5xQ/exec',
-  sparePartsApiBaseUrl: '',
+  sparePartsApiBaseUrl: 'https://requisition-consumables-api.requisition-rd.workers.dev',
   sparePartsEnabled: false,
   sessionKey: 'rd-site-session-v1',
   breakdownPages: Object.freeze({ report: 'machine-breakdown.html', repair: 'machine-breakdown-repair.html', inspection: 'machine-breakdown-inspection.html', analysis: 'machine-breakdown-analysis.html' }),

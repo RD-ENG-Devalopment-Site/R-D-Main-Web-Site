@@ -26,6 +26,7 @@
 .spare-search-button:hover:not(:disabled) { background: #b91b2d; }
 .spare-search-button:disabled { opacity: .55; cursor: not-allowed; }
 .spare-filter-note { margin: 8px 0 0; color: var(--muted); font-size: 11px; line-height: 1.45; }
+.spare-filter-note button { margin-inline-start: 6px; padding: 3px 0; border: 0; background: transparent; color: var(--white); cursor: pointer; font: inherit; font-weight: 650; text-decoration: underline; text-underline-offset: 3px; }
 .spare-machine-context { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 9px; margin-top: 14px; padding: 11px 14px; border: 1px solid var(--edge); border-radius: 8px; color: var(--white); font-size: 12px; }
 .spare-machine-context button { min-height: 30px; padding: 0 9px; border: 1px solid var(--edge); border-radius: 7px; background: var(--panel-raised); color: var(--white); cursor: pointer; font: inherit; font-size: 11px; }
 .spare-machine-context button:hover { border-color: var(--muted); }

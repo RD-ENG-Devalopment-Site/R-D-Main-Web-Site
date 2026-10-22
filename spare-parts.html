@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#111319" />
     <meta name="referrer" content="no-referrer" />
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: https:; style-src 'self'; script-src 'self'; connect-src https://nrjdjwyiglniidcclilf.supabase.co https://script.google.com https://script.googleusercontent.com; object-src 'none'; base-uri 'self'; form-action 'self'" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: https:; style-src 'self'; script-src 'self'; connect-src https://nrjdjwyiglniidcclilf.supabase.co https://script.google.com https://script.googleusercontent.com https://requisition-consumables-api.requisition-rd.workers.dev; object-src 'none'; base-uri 'self'; form-action 'self'" />
     <title>อะไหล่เครื่องจักร | Engineer R&amp;D Site</title>
     <link rel="stylesheet" href="styles.css" />
     <link rel="stylesheet" href="spare-parts.css" />
@@ -52,7 +52,7 @@
             </label>
             <button class="spare-search-button" type="submit">ค้นหา</button>
           </form>
-          <p class="spare-filter-note">สถานะสต็อกกรองเฉพาะรายการที่โหลดแล้ว · ค้นหาและเครื่องจักรกรองจากระบบคลัง</p>
+          <p class="spare-filter-note">สถานะสต็อกกรองเฉพาะรายการที่โหลดแล้ว · ค้นหาและเครื่องจักรกรองจากระบบคลัง <button id="spare-machine-retry" type="button" hidden>ลองโหลดทะเบียนเครื่องจักรอีกครั้ง</button></p>
           <div class="spare-machine-context" id="spare-machine-context" hidden>
             <span id="spare-machine-context-text"></span>
             <button id="spare-clear-machine" type="button">ล้างตัวกรองเครื่องจักร</button>
