@@ -4,7 +4,7 @@ window.RD_AUTH_CONFIG = Object.freeze({
   usernameDomain: 'rd-auth.invalid',
   secureApiUrl: 'https://script.google.com/macros/s/AKfycbxBDxNQUm3Vb1lXyvBUTvTRqlKr7vc2lPFkqvvZgRcHvSYZ1peBB6N2fz0-Fk_XJgk5xQ/exec',
   sparePartsApiBaseUrl: 'https://requisition-consumables-api.requisition-rd.workers.dev',
-  sparePartsEnabled: window.location.hostname === '127.0.0.1',
+  sparePartsEnabled: ['127.0.0.1', 'rd-eng-devalopment-site.github.io'].includes(window.location.hostname),
   sessionKey: 'rd-site-session-v1',
   breakdownPages: Object.freeze({ report: 'machine-breakdown.html', repair: 'machine-breakdown-repair.html', inspection: 'machine-breakdown-inspection.html', analysis: 'machine-breakdown-analysis.html' }),
   allowedRoles: Object.freeze(['Admin', 'Engineer', 'Technician', 'Supervisor', 'Viewer']),

@@ -20,7 +20,7 @@ test('Inventory Worker origin and feature flag are configured', () => {
   const config = fs.readFileSync(path.join(root, 'auth-config.js'), 'utf8');
   const html = fs.readFileSync(path.join(root, 'spare-parts.html'), 'utf8');
   assert.ok(config.includes(`sparePartsApiBaseUrl: '${inventoryOrigin}'`));
-  for (const [hostname, expected] of [['127.0.0.1', true], ['rd-eng-devalopment-site.github.io', false]]) {
+  for (const [hostname, expected] of [['127.0.0.1', true], ['rd-eng-devalopment-site.github.io', true], ['example.invalid', false]]) {
     const window = { location: { hostname } };
     vm.runInNewContext(config, { window });
     assert.equal(window.RD_AUTH_CONFIG.sparePartsEnabled, expected, hostname);
