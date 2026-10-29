@@ -16,6 +16,7 @@
   const detailState = $('#spare-detail-state');
   const detailContent = $('#spare-detail-content');
   const statusNames = { normal: 'ปกติ', low: 'ใกล้หมด', out: 'หมด' };
+  const inventoryTimeoutMs = 12000;
   const thaiNumber = new Intl.NumberFormat('th-TH');
   const thaiDate = new Intl.DateTimeFormat('th-TH', { dateStyle: 'medium', timeStyle: 'short', timeZone: 'Asia/Bangkok' });
   const initialParams = new URLSearchParams(location.search);
@@ -98,14 +99,11 @@
     list.querySelectorAll('.spare-item').forEach((button) => button.setAttribute('aria-pressed', 'false'));
   }
 
-  function activeMachine(record) {
-    return record.active === true || /^(true|1)$/i.test(String(record.active == null ? '' : record.active).trim());
-  }
-
   async function loadMachines() {
     state.machines.clear();
     try {
-      const records = await window.RDSiteAuth.apiRequest('listMachines');
+      const payload = await requestInventory('/api/rd/machines', {});
+      const records = payload.machines;
       if (!Array.isArray(records)) throw new Error('INVALID_RESPONSE');
       const seenIds = new Set();
       const duplicateIds = new Set();
@@ -116,7 +114,7 @@
         seenIds.add(id);
         const name = String(record.machine_name || '').trim();
         const zone = String(record.zone || '').trim();
-        if (activeMachine(record) && name && zone) state.machines.set(id, { name, zone });
+        if (name && zone) state.machines.set(id, { name, zone });
       });
       duplicateIds.forEach((id) => state.machines.delete(id));
       machineSelect.replaceChildren(new Option(state.machines.size ? 'ทุกเครื่องจักร' : 'ยังไม่มีเครื่องที่ยืนยันว่าใช้งาน', ''));
@@ -163,17 +161,31 @@
     }
     const url = new URL(`${state.baseUrl}${path}`);
     Object.entries(params || {}).forEach(([key, value]) => { if (value) url.searchParams.set(key, value); });
-    const response = await fetch(url, {
-      method: 'GET', headers: { Authorization: `Bearer ${token}` },
-      credentials: 'omit', cache: 'no-store', referrerPolicy: 'no-referrer', signal,
-    });
-    const body = await response.json().catch(() => ({}));
-    if (response.status === 401) {
-      await window.RDSiteAuth.logout();
-      throw new Error('AUTH_REQUIRED');
+    const requestController = new AbortController();
+    const abortFromCaller = () => requestController.abort();
+    if (signal?.aborted) requestController.abort();
+    else signal?.addEventListener('abort', abortFromCaller, { once: true });
+    let timedOut = false;
+    const timeout = setTimeout(() => { timedOut = true; requestController.abort(); }, inventoryTimeoutMs);
+    try {
+      const response = await fetch(url, {
+        method: 'GET', headers: { Authorization: `Bearer ${token}` },
+        credentials: 'omit', cache: 'no-store', referrerPolicy: 'no-referrer', signal: requestController.signal,
+      });
+      const body = await response.json().catch(() => ({}));
+      if (response.status === 401) {
+        await window.RDSiteAuth.logout();
+        throw new Error('AUTH_REQUIRED');
+      }
+      if (!response.ok) throw new Error(String(body.error?.code || `HTTP_${response.status}`));
+      return body;
+    } catch (error) {
+      if (timedOut && !signal?.aborted) throw new Error('REQUEST_TIMEOUT');
+      throw error;
+    } finally {
+      clearTimeout(timeout);
+      signal?.removeEventListener('abort', abortFromCaller);
     }
-    if (!response.ok) throw new Error(String(body.error?.code || `HTTP_${response.status}`));
-    return body;
   }
 
   function errorMessage(error, subject) {
@@ -182,6 +194,7 @@
     if (code === 'MACHINE_NOT_FOUND') return 'ระบบคลังยังไม่รู้จักรหัสเครื่องจักรนี้ กรุณาตรวจการจับคู่รหัสกับทีมคลัง';
     if (code === 'ITEM_NOT_FOUND') return 'ไม่พบรายการอะไหล่นี้ในระบบคลัง';
     if (code === 'RATE_LIMITED' || code === 'HTTP_429') return 'ระบบคลังรับคำขอมากเกินไป กรุณารอสักครู่แล้วลองใหม่';
+    if (code === 'REQUEST_TIMEOUT') return 'ระบบคลังตอบช้าเกินไป กรุณาลองใหม่';
     if (code === 'INVALID_RESPONSE') return `รูปแบบข้อมูล${subject}จากระบบคลังไม่ถูกต้อง กรุณาแจ้งผู้ดูแล`;
     return `โหลด${subject}จากระบบคลังไม่ได้ กรุณาลองอีกครั้ง`;
   }
@@ -197,6 +210,7 @@
     if (!visible.length) {
       list.hidden = true;
       if (statusSelect.value && state.items.length) showListState(`ไม่พบสถานะ “${statusNames[statusSelect.value]}” ในรายการที่โหลดแล้ว${state.cursor ? ' · อาจมีในหน้าถัดไป' : ''}`);
+      else if (state.machineId && state.query) showListState('ไม่พบอะไหล่ที่ตรงกับคำค้นสำหรับเครื่องนี้');
       else if (state.machineId) showListState('เครื่องนี้ยังไม่มีอะไหล่ที่ผูกไว้ในระบบคลัง');
       else if (state.query) showListState('ไม่พบอะไหล่ตามคำค้นนี้');
       else showListState('ยังไม่มีรายการอะไหล่ในระบบคลัง');

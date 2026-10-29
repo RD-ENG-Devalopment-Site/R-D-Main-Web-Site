@@ -6,4 +6,10 @@
 node_modules/
 /.impeccable/
 /exports/
+/supabase/.temp/
+/tests/no-role-worker-check.html
+/tests/worker-response-audit.html
+/R_D_PENDING_CHANGES_REVIEW_2026-10-29.md
+/SPARE_PARTS_HTTPS_RELEASE_HANDOFF_2026-10-27.md
+/SPARE_PARTS_LIVE_ROLLOUT_REPORT_2026-10-26.md
 
